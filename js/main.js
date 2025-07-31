@@ -6,7 +6,7 @@ const btnClear =document.getElementById("btnClear");
 const alertValidaciones =document.getElementById("alertValidaciones");
 const alertValidacionesTexto =document.getElementById("alertValidacionesTexto");
 const tablaListaCompras =document.getElementById("tablaListaCompras");
-const cuerpoTabla = tablaListaCompras.getElementsByTagName(tbody).item(0);
+const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0);
 
 let cont = 0;
 
@@ -22,7 +22,7 @@ if(isNaN(txtNumber.value)){
 }
 // valida cantidad
 
-if (number(txtNumber.value)<=0){
+if (Number(txtNumber.value)<=0){
     return false;
 }
 // mayor a 0
@@ -41,8 +41,8 @@ btnAgregar.addEventListener("click", function (event){
     // esto es para limpiar las alertas
     alertValidacionesTexto.innerHTML = "";
     alertValidaciones.style.display="none";
-    txtName.style.border=""
-    txtNumber.style.border=""
+    txtName.style.border="";
+    txtNumber.style.border="";
 
 
 // validacion Name mayor de tres letras
@@ -57,14 +57,14 @@ if(txtName.value.length<3){
 
 // validacion Number que tenga info numeral mayor a 0
 
-if(! validarCantidad()){
+if (! validarCantidad()){
     txtName.style.border="thin red solid"
     alertValidacionesTexto.innerHTML += "<strong>La cantidad no es correcta</strong></br>";
-    alertValidaciones.style.display="block";
+    alertValidaciones.style.display = "block";
     isValid =false;
 }
 if (isValid){
-    cont ++;
+    cont++;
     let precio = getPrecio();
     let row = `<tr>
         <td>${cont}</td>
@@ -74,6 +74,9 @@ if (isValid){
     </tr>
     `;
 
-    cuerpoTabla.insetAdjacentHTML("beforeend", row);
+    cuerpoTabla.insertAdjacentHTML ("beforeend", row);
+    txtName.value ="";
+    txtNumber ="";
+    txtName.focus();
 }
-})
+});
