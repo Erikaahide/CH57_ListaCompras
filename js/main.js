@@ -8,7 +8,14 @@ const alertValidacionesTexto =document.getElementById("alertValidacionesTexto");
 const tablaListaCompras =document.getElementById("tablaListaCompras");
 const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0);
 
+const contadorProductos = document.getElementById("contadorProductos");
+const productosTotal = document.getElementById("productosTotal");
+const precioTotal = document.getElementById("precioTotal");
+
 let cont = 0;
+let totalEnProductos = 0;
+let costoTotal = 0;
+
 
 function validarCantidad(){
     if(txtNumber.value.length==0){
@@ -48,7 +55,7 @@ btnAgregar.addEventListener("click", function (event){
 // validacion Name mayor de tres letras
 if(txtName.value.length<3){
     // borde rojo
-    txtNumber.style.border="thin red solid"
+    txtName.style.border = "thin red solid";
     // mensaje de error
     alertValidacionesTexto.innerHTML = "<strong>El nombre del producto no es correcto</strong>";
     alertValidaciones.style.display="block";
@@ -75,8 +82,15 @@ if (isValid){
     `;
 
     cuerpoTabla.insertAdjacentHTML ("beforeend", row);
+    contadorProductos.innerText=cont;
+    totalEnProductos += Number(txtNumber.value);
+    productosTotal.innerText = totalEnProductos;
+    costoTotal += precio * Number(txtNumber.value);
+    // precioTotal.innerText = "$" + costoTotal.toFixed(2);
+    precioTotal.innerText =new Intl.NumberFormat("es-MX", 
+        {style: "currency", currency: "MXM"}).format(costoTotal);
     txtName.value ="";
-    txtNumber ="";
+    txtNumber.value = "";
     txtName.focus();
 }
 });
