@@ -66,7 +66,7 @@ if(txtName.value.length<3){
 // validacion Number que tenga info numeral mayor a 0
 
 if (! validarCantidad()){
-    txtName.style.border="thin red solid"
+    txtNumber.style.border="thin red solid"
     alertValidacionesTexto.innerHTML += "<strong>La cantidad no es correcta</strong></br>";
     alertValidaciones.style.display = "block";
     isValid =false;
@@ -112,9 +112,76 @@ if (isValid){
         // localstorage solo guarda string o sea cadenas de texto
         localStorage.setItem("resumen", JSON.stringify(resumen));
 
-
     txtName.value ="";
     txtNumber.value = "";
     txtName.focus();
 }
+});
+
+window.addEventListener("load", function(event){
+    event.preventDefault();
+
+   if (this.localStorage.getItem("datos")!=null){
+        datos = JSON.parse(this.localStorage.getItem("datos"));
+        datos.forEach((dato)=>{
+                let row = `<tr>
+                    <td>${dato.cont}</td>
+                    <td>${dato.nombre}</td>
+                    <td>${dato.cantidad}</td>
+                    <td>${dato.precio}</td>
+                </tr>
+                `;
+        cuerpoTabla.insertAdjacentHTML("beforeend", row);
+        });
+    }
+
+    if (this.localStorage.getItem("resumen")!=null){
+        let resumen = JSON.parse (this.localStorage.getItem("resumen"));
+        costoTotal = resumen.costoTotal;
+        totalEnProductos = resumen.totalEnProductos;
+        cont = resumen.cont;
+    }
+
+    contadorProductos.innerText=cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText =new Intl.NumberFormat ("es-MX",
+        {style: "currency", currency: "MXN"}).format(costoTotal);
+});
+// window load
+
+// limpiar todo
+//** 1 eliminar local storage
+// 2 limpiar tabla
+// 3 limpiar campos
+// 4 limpiar bordes
+// 5 limpiar alerts
+// 6 limpiar resumen */
+
+btnClear.addEventListener("click", function(event){
+    event.preventDefault();
+    // 1
+    localStorage.removeItem("datos");
+    localStorage.removeItem("resumen");
+    // 2
+    cuerpoTabla.innerHTML="";
+    // 3
+    txtName.value ="";
+    txtNumber.value = "";
+    txtName.focus();
+    // 4
+    txtName.style.border="";
+    txtNumber.style.border="";
+    // 5
+    alertValidacionesTexto.innerHTML = "";
+    alertValidaciones.style.display="none";
+    // 6
+    cont = 0;
+    totalEnProductos = 0;
+    costoTotal = 0;
+
+    contadorProductos.innerText=cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText =new Intl.NumberFormat ("es-MX",
+        {style: "currency", currency: "MXN"}).format(costoTotal);
+    datos = new Array();
 });
