@@ -16,6 +16,7 @@ let cont = 0;
 let totalEnProductos = 0;
 let costoTotal = 0;
 
+let datos = new Array();
 
 function validarCantidad(){
     if(txtNumber.value.length==0){
@@ -81,6 +82,18 @@ if (isValid){
     </tr>
     `;
 
+    // esto es un objeto para agregarlo al array
+    let elemento = {
+        "cont" : cont,
+        "nombre" : txtName.value, 
+        "cantidad" : txtNumber.value,
+        "precio" : precio
+    };
+    // lo agrega al array
+    datos.push(elemento);
+    // lo agrega a local storage
+    localStorage.setItem("datos", JSON.stringify(datos));
+
     cuerpoTabla.insertAdjacentHTML ("beforeend", row);
     contadorProductos.innerText=cont;
     totalEnProductos += Number(txtNumber.value);
@@ -89,6 +102,17 @@ if (isValid){
     // precioTotal.innerText = "$" + costoTotal.toFixed(2);
     precioTotal.innerText =new Intl.NumberFormat("es-MX", 
         {style: "currency", currency: "MXM"}).format(costoTotal);
+
+        // creacion de objeto
+        let resumen = {
+            "cont" : cont,
+            "totalEnProductos" : totalEnProductos,
+            "costoTotal" : costoTotal
+        };
+        // localstorage solo guarda string o sea cadenas de texto
+        localStorage.setItem("resumen", JSON.stringify(resumen));
+
+
     txtName.value ="";
     txtNumber.value = "";
     txtName.focus();
